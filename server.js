@@ -3,7 +3,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const admin = require("firebase-admin");
-const ip2location = require("ip2location-nodejs");
+
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const session = require("express-session");
