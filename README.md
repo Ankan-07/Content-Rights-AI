@@ -1,35 +1,22 @@
-<<<<<<< HEAD
 # Content Rights AI
 
-A powerful AI-powered system for managing and analyzing content rights, contracts, and compliance.
+An AI-powered system for managing content rights and compliance.
 
 ## Features
 
-- 🔒 Secure Authentication & Authorization
-- 📄 Contract Analysis & Management
-- 🌍 Geo-compliance Checking
-- ⏰ Contract Expiry Monitoring
-- 📊 Compliance Dashboard
-- 📧 Automated Notifications
-- 🔍 Advanced Search Capabilities
-- 📝 Audit Logging
-
-## Tech Stack
-
-- Node.js
-- Express.js
-- Firebase (Authentication & Firestore)
-- Google Gemini AI
-- Nodemailer
-- Express Rate Limiting
-- Input Validation
+- Contract analysis and management
+- Geo-compliance checking
+- Contract expiration monitoring
+- User management and role-based access control
+- Audit logging
+- Compliance reporting
 
 ## Prerequisites
 
 - Node.js (v14 or higher)
-- Firebase Account
-- Google Gemini API Key
-- Email Service (for notifications)
+- Firebase project with Firestore database
+- Google Cloud Platform account (for Gemini API)
+- Email service credentials (for notifications)
 
 ## Environment Variables
 
@@ -37,14 +24,15 @@ Create a `.env` file in the root directory with the following variables:
 
 ```env
 PORT=5000
-GEMINI_API_KEY=your_gemini_api_key
-GOOGLE_APPLICATION_CREDENTIALS=path_to_firebase_credentials.json
+NODE_ENV=production
+CORS_ORIGIN=your-frontend-url
+SESSION_SECRET=your-session-secret
+GEMINI_API_KEY=your-gemini-api-key
+GOOGLE_APPLICATION_CREDENTIALS=path-to-firebase-credentials.json
 EMAIL_SERVICE=gmail
-EMAIL_USER=your_email
-EMAIL_PASSWORD=your_email_password
-NOTIFICATION_EMAILS=admin@example.com,compliance@example.com
-SESSION_SECRET=your_session_secret
-CORS_ORIGIN=http://localhost:3000
+EMAIL_USER=your-email
+EMAIL_PASSWORD=your-email-password
+NOTIFICATION_EMAILS=email1@example.com,email2@example.com
 ```
 
 ## Installation
@@ -66,60 +54,62 @@ cp .env.example .env
 # Edit .env with your credentials
 ```
 
-4. Start the server:
+## Development
+
+Run the development server:
 ```bash
-npm start
+npm run dev
+```
+
+## Production Deployment
+
+### Option 1: Deploy to Render.com
+
+1. Create a Render.com account
+2. Connect your GitHub repository
+3. Create a new Web Service
+4. Configure the following:
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+   - Environment Variables: Add all variables from your .env file
+
+### Option 2: Deploy to Heroku
+
+1. Create a Heroku account
+2. Install Heroku CLI
+3. Login to Heroku:
+```bash
+heroku login
+```
+
+4. Create a new Heroku app:
+```bash
+heroku create content-rights-ai
+```
+
+5. Set environment variables:
+```bash
+heroku config:set NODE_ENV=production
+heroku config:set GEMINI_API_KEY=your-key
+# Set other environment variables
+```
+
+6. Deploy:
+```bash
+git push heroku main
 ```
 
 ## API Documentation
 
-### Authentication Routes
-- `POST /auth/register` - Register a new user
-- `GET /auth/profile` - Get user profile
+The API provides endpoints for:
 
-### Contract Management
-- `POST /analyze-contract` - Analyze and store a contract
-- `GET /search-contracts` - Search contracts
-- `POST /edit-contract-clause` - Edit contract clauses
+- Authentication: `/auth/*`
+- Contract Management: `/analyze-contract`, `/search-contracts`
+- Compliance: `/check-geo-compliance`, `/check-expired-contracts`
+- Dashboard: `/active-contracts`, `/compliance-overview`
 
-### Compliance
-- `GET /check-geo-compliance/:contractId` - Check geo-compliance
-- `GET /check-expired-contracts` - Check for expired contracts
-- `GET /compliance-overview` - Get compliance dashboard stats
-- `GET /export-compliance-report` - Export compliance report
-
-### User Management
-- `GET /users` - List all users
-- `PUT /users/:userId/role` - Update user role
-
-### Audit & Monitoring
-- `GET /audit-logs` - Get audit logs
-- `GET /violations` - Get compliance violations
-
-## Security
-
-- JWT-based authentication
-- Role-based access control
-- Rate limiting
-- Input validation
-- Secure session management
-- CORS protection
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+For detailed API documentation, visit `/api-docs` when running the server.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, email support@example.com or create an issue in the repository. 
-=======
-# Content-Rights-AI
->>>>>>> origin/main
+MIT

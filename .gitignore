@@ -9,19 +9,16 @@ yarn-error.log
 .env.local
 .env.*.local
 
-# Firebase
-config/firebase-admin-key.json
-firebase-debug.log
-.firebase/
-*-debug.log
+# Firebase credentials
+*-firebase-adminsdk-*.json
 
-# IDE
-.idea/
+# IDE files
 .vscode/
+.idea/
 *.swp
 *.swo
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
