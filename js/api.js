@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'https://content-rights-ai.onrender.com';
 
 // Authentication Functions
 const getAuthToken = () => {
