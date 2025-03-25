@@ -1,122 +1,121 @@
 # Content Rights AI
 
-A comprehensive system for managing digital content rights, ensuring compliance, and tracking violations through AI-powered analysis.
+A powerful AI-powered system for managing and analyzing content rights, contracts, and compliance.
 
 ## Features
 
-### Contract Analysis & Management
-- Analyze contracts using Google's Gemini AI
-- Extract key details like parties, allowed regions, and duration
-- Track contract versions with full history
-- Get AI-powered clause recommendations
-- Manually edit clauses with smart placement
+- 🔒 Secure Authentication & Authorization
+- 📄 Contract Analysis & Management
+- 🌍 Geo-compliance Checking
+- ⏰ Contract Expiry Monitoring
+- 📊 Compliance Dashboard
+- 📧 Automated Notifications
+- 🔍 Advanced Search Capabilities
+- 📝 Audit Logging
 
-### Geo-Compliance Tracking
-- Verify user locations against allowed regions
-- Store and track violations
-- Generate compliance reports
+## Tech Stack
 
-### License Expiry Management
-- Automatic expiry detection
-- Email notifications for approaching and expired contracts
-- Configurable warning periods
+- Node.js
+- Express.js
+- Firebase (Authentication & Firestore)
+- Google Gemini AI
+- Nodemailer
+- Express Rate Limiting
+- Input Validation
 
-### Dashboard Analytics
-- Active & expired contract overview
-- Compliance statistics
-- Violation tracking and reporting
+## Prerequisites
 
-### User Management
-- Role-based access control (Admin, Editor, Viewer)
-- Comprehensive audit logging
-- Multi-tenant support
+- Node.js (v14 or higher)
+- Firebase Account
+- Google Gemini API Key
+- Email Service (for notifications)
 
-### Notifications & Alerts
-- Email notifications for violations and expiry
-- Weekly compliance reports
-- Customizable notification settings
+## Environment Variables
 
-## Getting Started
+Create a `.env` file in the root directory with the following variables:
 
-### Prerequisites
-- Node.js v14+ and npm
-- Firebase account with Firestore database
-- Google Cloud account (for Gemini API)
-- Gmail account (for email notifications)
-
-### Installation
-
-1. Clone the repository
+```env
+PORT=5000
+GEMINI_API_KEY=your_gemini_api_key
+GOOGLE_APPLICATION_CREDENTIALS=path_to_firebase_credentials.json
+EMAIL_SERVICE=gmail
+EMAIL_USER=your_email
+EMAIL_PASSWORD=your_email_password
+NOTIFICATION_EMAILS=admin@example.com,compliance@example.com
+SESSION_SECRET=your_session_secret
+CORS_ORIGIN=http://localhost:3000
 ```
-git clone https://github.com/your-username/content-rights-ai.git
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/content-rights-ai.git
 cd content-rights-ai
 ```
 
-2. Install dependencies
-```
+2. Install dependencies:
+```bash
 npm install
 ```
 
-3. Configure environment variables
-```
+3. Set up environment variables:
+```bash
 cp .env.example .env
+# Edit .env with your credentials
 ```
 
-4. Edit the `.env` file with your credentials
-   - Add your Gemini API key
-   - Set the path to your Firebase service account JSON
-   - Configure email settings
-
-5. Start the server
-```
+4. Start the server:
+```bash
 npm start
-```
-
-### Cloud Functions Deployment
-
-Deploy the scheduled tasks for automated compliance checking:
-
-```
-firebase deploy --only functions
 ```
 
 ## API Documentation
 
-### Authentication
-```
-POST /auth/register - Register a new user
-GET /auth/profile - Get the current user's profile
-```
+### Authentication Routes
+- `POST /auth/register` - Register a new user
+- `GET /auth/profile` - Get user profile
 
 ### Contract Management
-```
-POST /analyze-contract - Analyze and store a contract
-POST /edit-contract-clause - Edit a contract clause
-GET /search-contracts - Search for contracts
-```
+- `POST /analyze-contract` - Analyze and store a contract
+- `GET /search-contracts` - Search contracts
+- `POST /edit-contract-clause` - Edit contract clauses
 
 ### Compliance
-```
-POST /check-geo-compliance - Check if a user's location complies with a contract
-GET /check-expired-contracts - Check for expired contracts
-GET /violations - Get list of compliance violations
-```
+- `GET /check-geo-compliance/:contractId` - Check geo-compliance
+- `GET /check-expired-contracts` - Check for expired contracts
+- `GET /compliance-overview` - Get compliance dashboard stats
+- `GET /export-compliance-report` - Export compliance report
 
-### Reports & Dashboard
-```
-GET /active-contracts - Get all active contracts
-GET /expired-contracts - Get all expired contracts
-GET /compliance-overview - Get compliance statistics
-GET /export-compliance-report - Export a compliance report
-```
+### User Management
+- `GET /users` - List all users
+- `PUT /users/:userId/role` - Update user role
 
-### Notifications
-```
-POST /notification-settings - Configure notification settings
-GET /check-expiry-warnings - Check for contracts nearing expiry
-GET /send-weekly-report - Send a weekly compliance report
-```
+### Audit & Monitoring
+- `GET /audit-logs` - Get audit logs
+- `GET /violations` - Get compliance violations
+
+## Security
+
+- JWT-based authentication
+- Role-based access control
+- Rate limiting
+- Input validation
+- Secure session management
+- CORS protection
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, email support@example.com or create an issue in the repository. 
