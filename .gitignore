@@ -10,6 +10,7 @@ yarn-error.log
 .env.*.local
 
 # Firebase
+config/firebase-admin-key.json
 firebase-debug.log
 .firebase/
 *-debug.log
@@ -24,15 +25,20 @@ firebase-debug.log
 .DS_Store
 Thumbs.db
 
+# Build output
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+out/
+
 # Logs
 logs/
 *.log
 
-# Build output
-dist/
-build/
-out/
-
 # Temporary files
-tmp/
-temp/
+*.tmp
+*.temp
+.cache/
