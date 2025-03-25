@@ -3,139 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contract Management | Legallens</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Contract Management - Content Rights AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <a href="../index.html">Legallens</a>
+        <div class="navbar-brand">Content Rights AI</div>
+        <div class="navbar-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contract-management.html" class="active">Contracts</a>
+            <a href="compliance.html">Compliance</a>
+            <a href="settings.html">Settings</a>
+            <a href="audit-logs.html">Audit Logs</a>
         </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Home</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Features <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="user-management.html"><i class="fas fa-users"></i> User Management</a></li>
-                    <li><a href="contract-management.html"><i class="fas fa-file-contract"></i> Contract Management</a></li>
-                    <li><a href="ai-analysis.html"><i class="fas fa-robot"></i> AI Analysis</a></li>
-                    <li><a href="geo-compliance.html"><i class="fas fa-globe"></i> Geo Compliance</a></li>
-                    <li><a href="document-tracking.html"><i class="fas fa-file-alt"></i> Document Tracking</a></li>
-                    <li><a href="ai-assistant.html"><i class="fas fa-comments"></i> AI Assistant</a></li>
-                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
-                </ul>
-            </li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="navbar-user">
+            <span id="user-name">Loading...</span>
+            <button onclick="viewProfile()">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
     </nav>
 
-    <header class="feature-header">
-        <div class="feature-header-content">
+    <main class="contract-container">
+        <section class="contract-header">
             <h1>Contract Management</h1>
-            <p>Streamline contract creation, tracking, and management processes</p>
+            <div class="contract-actions">
+                <button onclick="showNewContractForm()">New Contract</button>
+                <button onclick="refreshContracts()">Refresh</button>
+                <div class="search-container">
+                    <input type="text" id="contract-search" placeholder="Search contracts...">
+                    <select id="search-field">
+                        <option value="all">All Fields</option>
+                        <option value="title">Title</option>
+                        <option value="party">Party</option>
+                        <option value="region">Region</option>
+                    </select>
+                    <button onclick="searchContracts()">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="contract-filters">
+            <div class="filter-group">
+                <label>Date Range:</label>
+                <input type="date" id="start-date">
+                <input type="date" id="end-date">
+            </div>
+            <div class="filter-group">
+                <label>Status:</label>
+                <select id="status-filter">
+                    <option value="all">All</option>
+                    <option value="active">Active</option>
+                    <option value="expired">Expired</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Sort By:</label>
+                <select id="sort-by">
+                    <option value="date">Date</option>
+                    <option value="title">Title</option>
+                    <option value="violations">Violations</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="contract-list">
+            <div id="contracts-container">
+                <!-- Contracts will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- New Contract Modal -->
+        <div id="new-contract-modal" class="modal">
+            <div class="modal-content">
+                <h2>New Contract</h2>
+                <form id="contract-form">
+                    <div class="form-group">
+                        <label>Contract Text:</label>
+                        <textarea id="contract-text" rows="10" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Format:</label>
+                        <select id="contract-format">
+                            <option value="text">Plain Text</option>
+                            <option value="pdf">PDF</option>
+                            <option value="docx">DOCX</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Analyze Contract</button>
+                        <button type="button" onclick="closeNewContractModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </header>
 
-    <main>
-        <section class="feature-details">
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <i class="fas fa-file-contract"></i>
-                    <h3>Digital Contracts</h3>
-                    <p>Create and manage contracts digitally with smart templates.</p>
+        <!-- Contract Details Modal -->
+        <div id="contract-details-modal" class="modal">
+            <div class="modal-content">
+                <h2>Contract Details</h2>
+                <div id="contract-details">
+                    <!-- Contract details will be populated by JavaScript -->
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-upload"></i>
-                    <h3>Bulk Upload</h3>
-                    <p>Upload and process multiple contracts simultaneously.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Contract Validation</h3>
-                    <p>Automated validation ensures contract completeness and accuracy.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <h3>Payment Tracking</h3>
-                    <p>Monitor contract payments and financial obligations.</p>
+                <div class="modal-actions">
+                    <button onclick="editContract()">Edit Contract</button>
+                    <button onclick="getRecommendations()">Get Recommendations</button>
+                    <button onclick="closeContractDetailsModal()">Close</button>
                 </div>
             </div>
-        </section>
-
-        <section class="feature-demo">
-            <h2>How It Works</h2>
-            <div class="demo-steps">
-                <div class="demo-step">
-                    <div class="step-number">1</div>
-                    <h3>Contract Creation</h3>
-                    <p>Create contracts using smart templates or upload existing ones.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">2</div>
-                    <h3>AI Analysis</h3>
-                    <p>AI analyzes contracts for completeness and potential issues.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">3</div>
-                    <h3>Validation & Approval</h3>
-                    <p>Contracts are validated and sent for approval workflow.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">4</div>
-                    <h3>Management & Tracking</h3>
-                    <p>Monitor contract status and manage obligations.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="feature-benefits">
-            <h2>Benefits</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <i class="fas fa-clock"></i>
-                    <h3>Time Efficiency</h3>
-                    <p>Automated processes save time and reduce manual work</p>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Risk Reduction</h3>
-                    <p>AI-powered validation minimizes contract risks</p>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Better Insights</h3>
-                    <p>Gain valuable insights into contract performance</p>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Legallens</h3>
-                <p>AI-Powered Content Licensing Platform</p>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>Email: info@legallens.com</p>
-                <p>Phone: +1 (555) 123-4567</p>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Legallens. All rights reserved.</p>
-        </div>
+    <footer class="footer">
+        <p>&copy; 2024 Content Rights AI. All rights reserved.</p>
     </footer>
+
+    <script type="module" src="../js/contract-management.js"></script>
+    <script>
+        // Global functions that need to be accessible from HTML
+        function refreshContracts() {
+            window.location.reload();
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login.html';
+        }
+
+        function viewProfile() {
+            window.location.href = '/profile.html';
+        }
+
+        function showNewContractForm() {
+            document.getElementById('new-contract-modal').style.display = 'block';
+        }
+
+        function closeNewContractModal() {
+            document.getElementById('new-contract-modal').style.display = 'none';
+        }
+
+        function closeContractDetailsModal() {
+            document.getElementById('contract-details-modal').style.display = 'none';
+        }
+
+        function searchContracts() {
+            const searchQuery = document.getElementById('contract-search').value;
+            const searchField = document.getElementById('search-field').value;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            
+            const params = new URLSearchParams({
+                query: searchQuery,
+                field: searchField,
+                startDate: startDate,
+                endDate: endDate
+            });
+            
+            window.location.href = `/contract-management.html?${params.toString()}`;
+        }
+
+        function editContract() {
+            // Implementation will be in contract-management.js
+        }
+
+        function getRecommendations() {
+            // Implementation will be in contract-management.js
+        }
+    </script>
 </body>
 </html> 

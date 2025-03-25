@@ -3,139 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings | Legallens</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Settings - Content Rights AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <a href="../index.html">Legallens</a>
+        <div class="navbar-brand">Content Rights AI</div>
+        <div class="navbar-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contract-management.html">Contracts</a>
+            <a href="compliance.html">Compliance</a>
+            <a href="settings.html" class="active">Settings</a>
+            <a href="audit-logs.html">Audit Logs</a>
         </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Home</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Features <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="user-management.html"><i class="fas fa-users"></i> User Management</a></li>
-                    <li><a href="contract-management.html"><i class="fas fa-file-contract"></i> Contract Management</a></li>
-                    <li><a href="ai-analysis.html"><i class="fas fa-robot"></i> AI Analysis</a></li>
-                    <li><a href="geo-compliance.html"><i class="fas fa-globe"></i> Geo Compliance</a></li>
-                    <li><a href="document-tracking.html"><i class="fas fa-file-alt"></i> Document Tracking</a></li>
-                    <li><a href="ai-assistant.html"><i class="fas fa-comments"></i> AI Assistant</a></li>
-                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
-                </ul>
-            </li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="navbar-user">
+            <button onclick="viewProfile()">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
     </nav>
 
-    <header class="feature-header">
-        <div class="feature-header-content">
+    <main class="settings-container">
+        <section class="settings-header">
             <h1>Settings</h1>
-            <p>Customize your content licensing platform experience</p>
-        </div>
-    </header>
-
-    <main>
-        <section class="feature-details">
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <i class="fas fa-user-cog"></i>
-                    <h3>Profile Settings</h3>
-                    <p>Manage your account preferences.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-bell-slash"></i>
-                    <h3>Notification Preferences</h3>
-                    <p>Control your notification settings.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-lock"></i>
-                    <h3>Security Settings</h3>
-                    <p>Configure security and privacy options.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-palette"></i>
-                    <h3>Display Options</h3>
-                    <p>Customize your interface appearance.</p>
-                </div>
+            <div class="settings-actions">
+                <button onclick="saveSettings()">Save Changes</button>
+                <button onclick="resetSettings()">Reset</button>
             </div>
         </section>
 
-        <section class="feature-demo">
-            <h2>How It Works</h2>
-            <div class="demo-steps">
-                <div class="demo-step">
-                    <div class="step-number">1</div>
-                    <h3>Access Settings</h3>
-                    <p>Navigate to the settings menu.</p>
+        <section class="settings-grid">
+            <div class="settings-card">
+                <h2>General Settings</h2>
+                <div class="form-group">
+                    <label for="default-language">Default Language</label>
+                    <select id="default-language">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                    </select>
                 </div>
-                <div class="demo-step">
-                    <div class="step-number">2</div>
-                    <h3>Choose Options</h3>
-                    <p>Select your preferred settings.</p>
+                <div class="form-group">
+                    <label for="timezone">Timezone</label>
+                    <select id="timezone">
+                        <option value="UTC">UTC</option>
+                        <option value="EST">Eastern Time</option>
+                        <option value="PST">Pacific Time</option>
+                    </select>
                 </div>
-                <div class="demo-step">
-                    <div class="step-number">3</div>
-                    <h3>Save Changes</h3>
-                    <p>Apply and save your settings.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">4</div>
-                    <h3>Verify Updates</h3>
-                    <p>Confirm your changes are active.</p>
+                <div class="form-group">
+                    <label for="date-format">Date Format</label>
+                    <select id="date-format">
+                        <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                        <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                    </select>
                 </div>
             </div>
-        </section>
 
-        <section class="feature-benefits">
-            <h2>Benefits</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <i class="fas fa-user-check"></i>
-                    <h3>Personalization</h3>
-                    <p>Tailor the platform to your needs</p>
+            <div class="settings-card">
+                <h2>Notification Settings</h2>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="email-notifications">
+                        Email Notifications
+                    </label>
                 </div>
-                <div class="benefit-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Enhanced Security</h3>
-                    <p>Control your security preferences</p>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="contract-alerts">
+                        Contract Alerts
+                    </label>
                 </div>
-                <div class="benefit-item">
-                    <i class="fas fa-bell"></i>
-                    <h3>Better Notifications</h3>
-                    <p>Receive relevant updates only</p>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="compliance-alerts">
+                        Compliance Alerts
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="audit-alerts">
+                        Audit Log Alerts
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h2>API Settings</h2>
+                <div class="form-group">
+                    <label for="api-key">API Key</label>
+                    <div class="api-key-group">
+                        <input type="password" id="api-key" readonly>
+                        <button onclick="showApiKey()">Show</button>
+                        <button onclick="regenerateApiKey()">Regenerate</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="api-rate-limit">API Rate Limit</label>
+                    <input type="number" id="api-rate-limit" min="1" max="1000">
+                </div>
+                <div class="form-group">
+                    <label for="api-timeout">API Timeout (seconds)</label>
+                    <input type="number" id="api-timeout" min="1" max="60">
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h2>Security Settings</h2>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="two-factor-auth">
+                        Enable Two-Factor Authentication
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="session-timeout">
+                        Enable Session Timeout
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="session-duration">Session Duration (minutes)</label>
+                    <input type="number" id="session-duration" min="5" max="120">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="ip-restriction">
+                        Enable IP Restriction
+                    </label>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Legallens</h3>
-                <p>AI-Powered Content Licensing Platform</p>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>Email: info@legallens.com</p>
-                <p>Phone: +1 (555) 123-4567</p>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Legallens. All rights reserved.</p>
-        </div>
+        <p>&copy; 2024 Content Rights AI. All rights reserved.</p>
     </footer>
+
+    <script type="module" src="../js/settings.js"></script>
+    <script>
+        // Global functions
+        function logout() {
+            window.location.href = '../index.html';
+        }
+
+        function viewProfile() {
+            window.location.href = 'profile.html';
+        }
+
+        function saveSettings() {
+            // Implementation in settings.js
+        }
+
+        function resetSettings() {
+            // Implementation in settings.js
+        }
+
+        function showApiKey() {
+            // Implementation in settings.js
+        }
+
+        function regenerateApiKey() {
+            // Implementation in settings.js
+        }
+    </script>
 </body>
 </html> 

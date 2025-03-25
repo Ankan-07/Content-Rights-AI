@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs - Content Rights AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">Content Rights AI</div>
+        <div class="navbar-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contract-management.html">Contracts</a>
+            <a href="compliance.html">Compliance</a>
+            <a href="settings.html">Settings</a>
+            <a href="audit-logs.html" class="active">Audit Logs</a>
+        </div>
+        <div class="navbar-user">
+            <button onclick="viewProfile()">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <main class="audit-container">
+        <section class="audit-header">
+            <h1>Audit Logs</h1>
+            <div class="audit-actions">
+                <button onclick="exportLogs()">Export Logs</button>
+                <button onclick="refreshLogs()">Refresh</button>
+            </div>
+        </section>
+
+        <section class="audit-filters">
+            <div class="filter-group">
+                <label for="user-filter">User:</label>
+                <select id="user-filter" onchange="filterLogs()">
+                    <option value="">All Users</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="action-filter">Action:</label>
+                <select id="action-filter" onchange="filterLogs()">
+                    <option value="">All Actions</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="date-range">Date Range:</label>
+                <input type="date" id="date-from" onchange="filterLogs()">
+                <input type="date" id="date-to" onchange="filterLogs()">
+            </div>
+        </section>
+
+        <section class="audit-stats">
+            <div class="stat-card">
+                <h3>Total Logs</h3>
+                <p id="total-logs">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Today's Logs</h3>
+                <p id="today-logs">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Active Users</h3>
+                <p id="active-users">0</p>
+            </div>
+        </section>
+
+        <section class="audit-list">
+            <div class="list-header">
+                <h2>Recent Activity</h2>
+                <div class="list-actions">
+                    <input type="text" id="search-logs" placeholder="Search logs..." oninput="filterLogs()">
+                </div>
+            </div>
+            <div id="logs-list" class="logs-list">
+                <!-- Logs will be populated by JavaScript -->
+            </div>
+            <div class="pagination">
+                <button onclick="previousPage()">Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button onclick="nextPage()">Next</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Content Rights AI. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="../js/audit-logs.js"></script>
+    <script>
+        // Global functions
+        function logout() {
+            window.location.href = '../index.html';
+        }
+
+        function viewProfile() {
+            window.location.href = 'profile.html';
+        }
+
+        function exportLogs() {
+            // Implementation in audit-logs.js
+        }
+
+        function refreshLogs() {
+            // Implementation in audit-logs.js
+        }
+
+        function filterLogs() {
+            // Implementation in audit-logs.js
+        }
+
+        function previousPage() {
+            // Implementation in audit-logs.js
+        }
+
+        function nextPage() {
+            // Implementation in audit-logs.js
+        }
+    </script>
+</body>
+</html> 

@@ -3,139 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Legallens</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Dashboard - Content Rights AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <a href="../index.html">Legallens</a>
+        <div class="navbar-brand">Content Rights AI</div>
+        <div class="navbar-menu">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="contract-management.html">Contracts</a>
+            <a href="compliance.html">Compliance</a>
+            <a href="settings.html">Settings</a>
+            <a href="audit-logs.html">Audit Logs</a>
         </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Home</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Features <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="user-management.html"><i class="fas fa-users"></i> User Management</a></li>
-                    <li><a href="contract-management.html"><i class="fas fa-file-contract"></i> Contract Management</a></li>
-                    <li><a href="ai-analysis.html"><i class="fas fa-robot"></i> AI Analysis</a></li>
-                    <li><a href="geo-compliance.html"><i class="fas fa-globe"></i> Geo Compliance</a></li>
-                    <li><a href="document-tracking.html"><i class="fas fa-file-alt"></i> Document Tracking</a></li>
-                    <li><a href="ai-assistant.html"><i class="fas fa-comments"></i> AI Assistant</a></li>
-                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-                    <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
-                </ul>
-            </li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="navbar-user">
+            <span id="user-name">Loading...</span>
+            <button onclick="viewProfile()">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
     </nav>
 
-    <header class="feature-header">
-        <div class="feature-header-content">
-            <h1>Dashboard</h1>
-            <p>Monitor and manage your content licensing activities in one place</p>
-        </div>
-    </header>
-
-    <main>
-        <section class="feature-details">
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <i class="fas fa-chart-bar"></i>
-                    <h3>Analytics Overview</h3>
-                    <p>View key metrics and performance data.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-tasks"></i>
-                    <h3>Task Management</h3>
-                    <p>Track and manage licensing tasks.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-bell"></i>
-                    <h3>Notifications</h3>
-                    <p>Stay updated with important alerts.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-cog"></i>
-                    <h3>Customization</h3>
-                    <p>Personalize your dashboard view.</p>
-                </div>
+    <main class="dashboard-container">
+        <section class="dashboard-header">
+            <h1>Dashboard Overview</h1>
+            <div class="dashboard-actions">
+                <button onclick="refreshDashboard()">Refresh</button>
+                <button onclick="exportReport()">Export Report</button>
+                <button onclick="analyzeNewContract()">Analyze Contract</button>
+                <button onclick="checkGeoCompliance()">Check Geo-Compliance</button>
             </div>
         </section>
 
-        <section class="feature-demo">
-            <h2>How It Works</h2>
-            <div class="demo-steps">
-                <div class="demo-step">
-                    <div class="step-number">1</div>
-                    <h3>Data Collection</h3>
-                    <p>Gather data from all licensing activities.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">2</div>
-                    <h3>Analysis</h3>
-                    <p>Process and analyze the collected data.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">3</div>
-                    <h3>Visualization</h3>
-                    <p>Display insights in easy-to-read charts.</p>
-                </div>
-                <div class="demo-step">
-                    <div class="step-number">4</div>
-                    <h3>Action Items</h3>
-                    <p>Identify and manage required actions.</p>
+        <section class="dashboard-grid">
+            <div class="dashboard-card">
+                <h2>Compliance Overview</h2>
+                <div id="compliance-overview" class="compliance-stats">
+                    <!-- Compliance stats will be populated by JavaScript -->
                 </div>
             </div>
-        </section>
 
-        <section class="feature-benefits">
-            <h2>Benefits</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <i class="fas fa-eye"></i>
-                    <h3>Better Visibility</h3>
-                    <p>Clear view of all licensing activities</p>
+            <div class="dashboard-card">
+                <h2>Active Contracts</h2>
+                <div class="card-actions">
+                    <input type="text" id="contract-search" placeholder="Search contracts...">
+                    <button onclick="searchContracts()">Search</button>
                 </div>
-                <div class="benefit-item">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Data-Driven Decisions</h3>
-                    <p>Make informed choices with analytics</p>
+                <div id="active-contracts-list" class="contracts-list">
+                    <!-- Active contracts will be populated by JavaScript -->
                 </div>
-                <div class="benefit-item">
-                    <i class="fas fa-clock"></i>
-                    <h3>Time Efficiency</h3>
-                    <p>Quick access to important information</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Expired Contracts</h2>
+                <div id="expired-contracts-list" class="contracts-list">
+                    <!-- Expired contracts will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Recent Violations</h2>
+                <div id="violations-list" class="violations-list">
+                    <!-- Violations will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Recent Activity</h2>
+                <div id="recent-activity" class="activity-list">
+                    <!-- Recent activity will be populated by JavaScript -->
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Legallens</h3>
-                <p>AI-Powered Content Licensing Platform</p>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>Email: info@legallens.com</p>
-                <p>Phone: +1 (555) 123-4567</p>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Legallens. All rights reserved.</p>
-        </div>
+    <footer class="footer">
+        <p>&copy; 2024 Content Rights AI. All rights reserved.</p>
     </footer>
+
+    <script type="module" src="../js/dashboard.js"></script>
+    <script>
+        // Global functions that need to be accessible from HTML
+        function refreshDashboard() {
+            window.location.reload();
+        }
+
+        function exportReport() {
+            window.location.href = '/export-compliance-report?format=pdf';
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login.html';
+        }
+
+        function viewProfile() {
+            window.location.href = '/profile.html';
+        }
+
+        function analyzeNewContract() {
+            window.location.href = '/contract-management.html?action=new';
+        }
+
+        function checkGeoCompliance() {
+            window.location.href = '/compliance.html?action=geo-check';
+        }
+
+        function searchContracts() {
+            const searchQuery = document.getElementById('contract-search').value;
+            window.location.href = `/contract-management.html?search=${encodeURIComponent(searchQuery)}`;
+        }
+    </script>
 </body>
 </html> 

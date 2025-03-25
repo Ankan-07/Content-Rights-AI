@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance - Content Rights AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">Content Rights AI</div>
+        <div class="navbar-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contract-management.html">Contracts</a>
+            <a href="compliance.html" class="active">Compliance</a>
+            <a href="settings.html">Settings</a>
+            <a href="audit-logs.html">Audit Logs</a>
+        </div>
+        <div class="navbar-user">
+            <span id="user-name">Loading...</span>
+            <button onclick="viewProfile()">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <main class="compliance-container">
+        <section class="compliance-header">
+            <h1>Compliance Monitoring</h1>
+            <div class="compliance-actions">
+                <button onclick="checkGeoCompliance()">Check Geo-Compliance</button>
+                <button onclick="checkExpiredContracts()">Check Expired Contracts</button>
+                <button onclick="exportComplianceReport()">Export Report</button>
+                <button onclick="refreshCompliance()">Refresh</button>
+            </div>
+        </section>
+
+        <section class="compliance-filters">
+            <div class="filter-group">
+                <label>Violation Type:</label>
+                <select id="violation-type">
+                    <option value="all">All Types</option>
+                    <option value="geo-compliance">Geo-Compliance</option>
+                    <option value="expired">Expired Contracts</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Date Range:</label>
+                <input type="date" id="start-date">
+                <input type="date" id="end-date">
+            </div>
+            <div class="filter-group">
+                <label>Status:</label>
+                <select id="violation-status">
+                    <option value="all">All</option>
+                    <option value="active">Active</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="compliance-overview">
+            <div class="compliance-stats">
+                <div class="stat-card">
+                    <h3>Total Violations</h3>
+                    <div id="total-violations" class="stat-value">Loading...</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Violations</h3>
+                    <div id="active-violations" class="stat-value">Loading...</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Resolved Violations</h3>
+                    <div id="resolved-violations" class="stat-value">Loading...</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Compliance Rate</h3>
+                    <div id="compliance-rate" class="stat-value">Loading...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="violations-list">
+            <h2>Recent Violations</h2>
+            <div id="violations-container">
+                <!-- Violations will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Geo-Compliance Check Modal -->
+        <div id="geo-compliance-modal" class="modal">
+            <div class="modal-content">
+                <h2>Geo-Compliance Check</h2>
+                <form id="geo-compliance-form">
+                    <div class="form-group">
+                        <label>Contract ID:</label>
+                        <input type="text" id="contract-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>User IP:</label>
+                        <input type="text" id="user-ip" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Check Compliance</button>
+                        <button type="button" onclick="closeGeoComplianceModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Violation Details Modal -->
+        <div id="violation-details-modal" class="modal">
+            <div class="modal-content">
+                <h2>Violation Details</h2>
+                <div id="violation-details">
+                    <!-- Violation details will be populated by JavaScript -->
+                </div>
+                <div class="modal-actions">
+                    <button onclick="resolveViolation()">Resolve Violation</button>
+                    <button onclick="closeViolationDetailsModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Content Rights AI. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="../js/compliance.js"></script>
+    <script>
+        // Global functions that need to be accessible from HTML
+        function refreshCompliance() {
+            window.location.reload();
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login.html';
+        }
+
+        function viewProfile() {
+            window.location.href = '/profile.html';
+        }
+
+        function checkGeoCompliance() {
+            document.getElementById('geo-compliance-modal').style.display = 'block';
+        }
+
+        function closeGeoComplianceModal() {
+            document.getElementById('geo-compliance-modal').style.display = 'none';
+        }
+
+        function closeViolationDetailsModal() {
+            document.getElementById('violation-details-modal').style.display = 'none';
+        }
+
+        function checkExpiredContracts() {
+            // Implementation will be in compliance.js
+        }
+
+        function exportComplianceReport() {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            window.location.href = `/export-compliance-report?format=pdf&startDate=${startDate}&endDate=${endDate}`;
+        }
+
+        function resolveViolation() {
+            // Implementation will be in compliance.js
+        }
+    </script>
+</body>
+</html> 

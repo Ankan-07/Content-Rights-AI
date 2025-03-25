@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Content Rights AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">Content Rights AI</div>
+        <div class="navbar-menu">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="contract-management.html">Contracts</a>
+            <a href="compliance.html">Compliance</a>
+            <a href="settings.html">Settings</a>
+            <a href="audit-logs.html">Audit Logs</a>
+        </div>
+        <div class="navbar-user">
+            <span id="user-name">Loading...</span>
+            <button onclick="viewProfile()" class="active">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <main class="profile-container">
+        <section class="profile-header">
+            <h1>User Profile</h1>
+            <div class="profile-actions">
+                <button onclick="editProfile()">Edit Profile</button>
+                <button onclick="changePassword()">Change Password</button>
+            </div>
+        </section>
+
+        <section class="profile-content">
+            <div class="profile-info">
+                <div class="info-group">
+                    <label>Display Name:</label>
+                    <span id="display-name">Loading...</span>
+                </div>
+                <div class="info-group">
+                    <label>Email:</label>
+                    <span id="email">Loading...</span>
+                </div>
+                <div class="info-group">
+                    <label>Role:</label>
+                    <span id="role">Loading...</span>
+                </div>
+                <div class="info-group">
+                    <label>Permissions:</label>
+                    <div id="permissions" class="permissions-list">
+                        <!-- Permissions will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="info-group">
+                    <label>Member Since:</label>
+                    <span id="member-since">Loading...</span>
+                </div>
+            </div>
+
+            <div class="profile-activity">
+                <h2>Recent Activity</h2>
+                <div id="activity-list">
+                    <!-- Activity will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Edit Profile Modal -->
+        <div id="edit-profile-modal" class="modal">
+            <div class="modal-content">
+                <h2>Edit Profile</h2>
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label>Display Name:</label>
+                        <input type="text" id="edit-display-name" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Save Changes</button>
+                        <button type="button" onclick="closeEditProfileModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div id="change-password-modal" class="modal">
+            <div class="modal-content">
+                <h2>Change Password</h2>
+                <form id="change-password-form">
+                    <div class="form-group">
+                        <label>Current Password:</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password:</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password:</label>
+                        <input type="password" id="confirm-password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Change Password</button>
+                        <button type="button" onclick="closeChangePasswordModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Content Rights AI. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="../js/profile.js"></script>
+    <script>
+        // Global functions that need to be accessible from HTML
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login.html';
+        }
+
+        function viewProfile() {
+            window.location.href = '/profile.html';
+        }
+
+        function editProfile() {
+            document.getElementById('edit-profile-modal').style.display = 'block';
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('edit-profile-modal').style.display = 'none';
+        }
+
+        function changePassword() {
+            document.getElementById('change-password-modal').style.display = 'block';
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById('change-password-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
