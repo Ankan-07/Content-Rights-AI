@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Content Rights AI
 
 A powerful AI-powered system for managing and analyzing content rights, contracts, and compliance.
@@ -119,3 +120,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For support, email support@example.com or create an issue in the repository. 
+=======
+# Content-Rights-AI
+>>>>>>> origin/main
