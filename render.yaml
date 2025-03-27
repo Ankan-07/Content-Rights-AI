@@ -5,7 +5,7 @@ services:
     publishDir: frontend/build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://legallens.onrender.com
+        value: https://legallens-backend.onrender.com
 
   - name: legallens-backend
     type: web
@@ -17,6 +17,6 @@ services:
       - key: NODE_ENV
         value: production
       - key: CORS_ORIGIN
-        value: https://legallens.onrender.com
+        value: https://legallens-frontend.onrender.com
       - key: SESSION_SECRET
         value: legallens-session-secret-2024-xyz789 

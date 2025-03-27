@@ -1539,13 +1539,23 @@ app.get("/audit-logs",
 
 // ====================== END OF SEARCH AND VALIDATION ======================
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+    res.json({
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        corsOrigin: process.env.CORS_ORIGIN
+    });
+});
+
 // Root route for server health check
 app.get("/", (req, res) => {
     res.json({
         status: "online",
-        service: "Content Rights AI API",
+        service: "LegalLens API",
         version: "1.0.0",
         endpoints: {
+            health: "/health",
             auth: "/auth/*",
             contracts: "/analyze-contract, /search-contracts, etc.",
             compliance: "/check-geo-compliance, /check-expired-contracts, etc.",
