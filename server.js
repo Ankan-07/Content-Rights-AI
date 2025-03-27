@@ -464,8 +464,8 @@ Contract text: "${contractText}"`
             
             // Update the existing contract
             await db.collection("contracts").doc(contractId).update({
-                contractDetails,
-                originalText: contractText,
+            contractDetails,
+            originalText: contractText,
                 timestamp: FieldValue.serverTimestamp(),
                 versionCount: FieldValue.increment(1)
             });
