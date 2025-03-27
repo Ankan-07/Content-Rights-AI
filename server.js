@@ -17,7 +17,11 @@ const app = express();
 app.use(express.json());
 
 // CORS Configuration
-const corsOrigins = (process.env.CORS_ORIGIN || "*").split(",");
+const corsOrigins = [
+    'https://legallens-w4dg.onrender.com',
+    'http://localhost:3000'
+];
+
 app.use(cors({
     origin: function(origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
@@ -26,10 +30,13 @@ app.use(cors({
         if (corsOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
+            console.log('CORS blocked for origin:', origin);
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(cookieParser());

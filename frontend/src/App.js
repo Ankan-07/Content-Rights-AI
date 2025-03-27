@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     const checkApiConnection = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/health`);
+        const response = await fetch('https://legallens-backend.onrender.com/health');
         const data = await response.json();
         setApiStatus(data);
       } catch (err) {
