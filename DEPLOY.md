@@ -23,7 +23,7 @@ This document outlines the steps to deploy both the frontend and backend of Lega
    ```
    PORT=5000
    NODE_ENV=production
-   CORS_ORIGIN=https://legallens-frontend.onrender.com
+   CORS_ORIGIN=https://legallens-w4dg.onrender.com
    SESSION_SECRET=<your-secure-session-secret>
    GOOGLE_APPLICATION_CREDENTIALS=./config/firebase-admin-key.json
    GEMINI_API_KEY=<your-gemini-api-key>
@@ -87,4 +87,4 @@ For easier deployment, you can use the `render.yaml` file at the root of the rep
 4. Render will detect the `render.yaml` file and configure both services automatically
 5. Review the settings and click "Apply"
 
-This will deploy both the frontend and backend in one step. 
+This will deploy both the frontend and backend in one step.
