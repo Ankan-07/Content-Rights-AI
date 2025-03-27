@@ -1,22 +1,38 @@
 services:
-  - name: legallens-frontend
-    type: static
-    buildCommand: npm run render-build
-    publishDir: frontend/build
-    envVars:
-      - key: REACT_APP_API_URL
-        value: https://legallens-backend.onrender.com
-
-  - name: legallens-backend
-    type: web
+  - type: web
+    name: legallens-backend
+    env: node
     buildCommand: npm install
     startCommand: npm start
     envVars:
-      - key: PORT
-        value: 5000
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 5000
       - key: CORS_ORIGIN
-        value: https://legallens-frontend.onrender.com
+        value: https://legallens-w4dg.onrender.com
       - key: SESSION_SECRET
-        value: legallens-session-secret-2024-xyz789 
+        value: legallens-session-secret-2024-xyz789
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        value: ./config/firebase-admin-key.json
+      - key: EMAIL_SERVICE
+        value: gmail
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: NOTIFICATION_EMAILS
+        sync: false
+      - key: IP2LOCATION_API_KEY
+        sync: false
+
+  - type: web
+    name: legallens-frontend
+    env: static
+    buildCommand: npm run render-build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://legallens-backend.onrender.com 
