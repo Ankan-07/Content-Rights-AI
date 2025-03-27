@@ -122,20 +122,22 @@ const ROLE_PERMISSIONS = {
 const authenticateUser = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
-        
+
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            console.error("❌ Missing or invalid Authorization header");
             return res.status(401).json({ error: "Unauthorized: No token provided" });
         }
-        
+
         const idToken = authHeader.split("Bearer ")[1];
-        
+
         // Verify Firebase token
         const decodedToken = await admin.auth().verifyIdToken(idToken);
-        
+
         if (!decodedToken) {
+            console.error("❌ Invalid Firebase token");
             return res.status(401).json({ error: "Unauthorized: Invalid token" });
         }
-        
+
         // Get user from Firestore to check role
         const userDoc = await db.collection("users").doc(decodedToken.uid).get();
         
@@ -174,7 +176,7 @@ const authenticateUser = async (req, res, next) => {
         
         next();
     } catch (error) {
-        console.error("❌ Authentication error:", error);
+        console.error("❌ Authentication error:", error.message);
         res.status(401).json({ error: "Unauthorized: " + error.message });
     }
 };
