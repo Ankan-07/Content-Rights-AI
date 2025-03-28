@@ -65,7 +65,7 @@ function App() {
           <div className="error-container">
             <h2>Connection Error</h2>
             <p>Unable to connect to the backend API.</p>
-            <p>API URL: {process.env.REACT_APP_API_URL}</p>
+            <p>API URL: https://legallens-backend.onrender.com</p>
             {apiStatus && <p>Status: {apiStatus.message}</p>}
             <p>Please ensure:</p>
             <ul>

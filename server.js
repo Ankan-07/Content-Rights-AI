@@ -1039,7 +1039,7 @@ Contract text: "${updatedText}"`
 });
 
 // Route: Get Active Contracts
-app.get("/active-contracts", authenticateUser, authorizeUser(["read"]), async (req, res) => {
+app.get("/active-contracts", async (req, res) => {
     try {
         const now = new Date();
         const activeContractsSnapshot = await db.collection("contracts").get();
@@ -1160,7 +1160,7 @@ app.get("/violations", authenticateUser, authorizeUser(["read"]), async (req, re
 });
 
 // Route: Get Compliance Overview (Dashboard Stats)
-app.get("/compliance-overview", authenticateUser, authorizeUser(["read"]), async (req, res) => {
+app.get("/compliance-overview", async (req, res) => {
     try {
         // Get total contracts count
         const contractsSnapshot = await db.collection("contracts").get();
@@ -1548,16 +1548,17 @@ app.get("/audit-logs",
 
 // ====================== END OF SEARCH AND VALIDATION ======================
 
-// Health check endpoint
+// Health check endpoint - make it public
 app.get("/health", (req, res) => {
     res.json({
         status: "healthy",
         timestamp: new Date().toISOString(),
-        corsOrigin: process.env.CORS_ORIGIN
+        corsOrigin: process.env.CORS_ORIGIN,
+        version: "1.0.0"
     });
 });
 
-// Root route for server health check
+// Root route for server health check - make it public
 app.get("/", (req, res) => {
     res.json({
         status: "online",
