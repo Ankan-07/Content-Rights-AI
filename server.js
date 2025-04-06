@@ -3,6 +3,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const admin = require("firebase-admin");
+const path = require('path');
 
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
@@ -95,15 +96,23 @@ const validateRequest = (validations) => {
 };
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
-
-const db = admin.firestore();
-const FieldValue = admin.firestore.FieldValue;
-console.log("✅ Firestore Initialized Successfully");
+// Firebase Admin Initialization
+try {
+    const serviceAccountPath = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS || './config/firebase-admin-key.json');
+    const serviceAccount = require(serviceAccountPath);
+    
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+    
+    const db = admin.firestore();
+    const FieldValue = admin.firestore.FieldValue;
+    console.log("✅ Firestore Initialized Successfully");
+} catch (error) {
+    console.error("❌ Firebase initialization error:", error);
+    process.exit(1); // Exit if Firebase fails to initialize
+}
 
 // Define user roles and permissions
 const USER_ROLES = {
