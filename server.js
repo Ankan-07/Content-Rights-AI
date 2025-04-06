@@ -97,6 +97,10 @@ const validateRequest = (validations) => {
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
+// Declare db and FieldValue at the top level
+let db;
+let FieldValue;
+
 // Firebase Admin Initialization
 try {
     const serviceAccountPath = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS || './config/firebase-admin-key.json');
@@ -106,13 +110,21 @@ try {
         credential: admin.credential.cert(serviceAccount)
     });
     
-    const db = admin.firestore();
-    const FieldValue = admin.firestore.FieldValue;
+    // Initialize Firestore
+    db = admin.firestore();
+    FieldValue = admin.firestore.FieldValue;
     console.log("✅ Firestore Initialized Successfully");
 } catch (error) {
     console.error("❌ Firebase initialization error:", error);
+    console.error("Error details:", error.stack);
     process.exit(1); // Exit if Firebase fails to initialize
 }
+
+// Make db available to routes
+app.locals.db = db;
+
+// Export for use in other modules
+module.exports = { app, db, FieldValue };
 
 // Define user roles and permissions
 const USER_ROLES = {
@@ -1047,7 +1059,7 @@ Contract text: "${updatedText}"`
     }
 });
 
-// Route: Get Active Contracts
+// Route: Get Active Contracts - Public endpoint
 app.get("/active-contracts", async (req, res) => {
     try {
         const now = new Date();
@@ -1168,7 +1180,7 @@ app.get("/violations", authenticateUser, authorizeUser(["read"]), async (req, re
     }
 });
 
-// Route: Get Compliance Overview (Dashboard Stats)
+// Route: Get Compliance Overview (Dashboard Stats) - Public endpoint
 app.get("/compliance-overview", async (req, res) => {
     try {
         // Get total contracts count
