@@ -97,34 +97,58 @@ const validateRequest = (validations) => {
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// Declare db and FieldValue at the top level
+// Declare db and FieldValue at a higher scope
 let db;
 let FieldValue;
 
-// Firebase Admin Initialization
+// Firebase Admin Initialization with Error Handling
 try {
-    const serviceAccountPath = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS || './config/firebase-admin-key.json');
-    const serviceAccount = require(serviceAccountPath);
-    
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
+    // First try to load from environment variable
+    let serviceAccount;
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        const absolutePath = path.resolve(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+        serviceAccount = require(absolutePath);
+    } else if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        // Fallback to direct JSON if provided as environment variable
+        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    } else {
+        throw new Error('No Firebase credentials found. Please set either GOOGLE_APPLICATION_CREDENTIALS or FIREBASE_SERVICE_ACCOUNT');
+    }
+
+    // Initialize Firebase Admin
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+        databaseURL: process.env.FIREBASE_DATABASE_URL
     });
-    
+
     // Initialize Firestore
     db = admin.firestore();
     FieldValue = admin.firestore.FieldValue;
-    console.log("✅ Firestore Initialized Successfully");
+    app.locals.db = db;
+
+    // Test the connection
+    await db.collection('test').doc('test').set({
+        timestamp: FieldValue.serverTimestamp()
+    });
+    await db.collection('test').doc('test').delete();
+
+    console.log("✅ Firebase Admin SDK initialized successfully");
+    console.log("✅ Firestore connection verified");
+
 } catch (error) {
-    console.error("❌ Firebase initialization error:", error);
-    console.error("Error details:", error.stack);
-    process.exit(1); // Exit if Firebase fails to initialize
+    console.error("❌ Firebase initialization error:", error.message);
+    console.error("Stack trace:", error.stack);
+    
+    // Provide detailed error information
+    if (error.code === 'auth/invalid-credential') {
+        console.error("Invalid credentials. Please check your service account key.");
+    } else if (error.code === 'app/duplicate-app') {
+        console.error("Firebase app already initialized. This might cause issues.");
+    }
+    
+    // Don't exit the process, but log the error
+    console.error("Application will continue but Firebase features may not work.");
 }
-
-// Make db available to routes
-app.locals.db = db;
-
-// Export for use in other modules
-module.exports = { app, db, FieldValue };
 
 // Define user roles and permissions
 const USER_ROLES = {
@@ -141,6 +165,7 @@ const ROLE_PERMISSIONS = {
 
 // Authentication middleware
 const authenticateUser = async (req, res, next) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const authHeader = req.headers.authorization;
 
@@ -267,6 +292,7 @@ const sendEmailNotification = async (to, subject, text, html) => {
 
 // Route: Register a new user
 app.post("/auth/register", async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { email, password, displayName } = req.body;
         
@@ -319,6 +345,7 @@ app.get("/auth/profile", authenticateUser, (req, res) => {
 
 // Route: Update user role (admin only)
 app.put("/users/:userId/role", authenticateUser, authorizeUser(["manage_users"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { userId } = req.params;
         const { role } = req.body;
@@ -369,6 +396,7 @@ app.put("/users/:userId/role", authenticateUser, authorizeUser(["manage_users"])
 
 // Route: List all users (admin only)
 app.get("/users", authenticateUser, authorizeUser(["manage_users"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const usersSnapshot = await db.collection("users").get();
         
@@ -405,6 +433,7 @@ app.post("/analyze-contract",
         body("contractId").optional().isString()
     ]),
     async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { contractText, contractFormat, contractId } = req.body;
 
@@ -522,6 +551,7 @@ Contract text: "${contractText}"`
 
 // Route: Test Firestore Connection
 app.get("/test-firestore", async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const docRef = await db.collection("test").add({
             message: "Firestore is connected!",
@@ -537,6 +567,7 @@ app.get("/test-firestore", async (req, res) => {
 
 // Extract allowed regions from contract text
 app.get("/check-geo-compliance/:contractId", async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { contractId } = req.params;
         const docRef = db.collection("contracts").doc(contractId);
@@ -572,6 +603,7 @@ app.post("/check-geo-compliance",
         body("userIp").notEmpty().withMessage("User IP is required"),
     ]),
     async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { contractId, userIp } = req.body;
 
@@ -662,6 +694,7 @@ app.post("/check-geo-compliance",
 
 
 app.get("/check-expired-contracts", async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const now = new Date();  // Get current date
         console.log(`Checking contracts expiry as of: ${now.toISOString()}`);
@@ -726,6 +759,7 @@ app.get("/check-expired-contracts", async (req, res) => {
 
 // Route: Get Clause Recommendations
 app.post("/clause-recommendations", authenticateUser, authorizeUser(["read"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { contractId, contractText, recommendationType } = req.body;
         
@@ -861,6 +895,7 @@ app.post("/clause-recommendations", authenticateUser, authorizeUser(["read"]), a
 
 // Route: Edit Contract Clauses
 app.post("/edit-contract-clause", authenticateUser, authorizeUser(["write"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { contractId, clauseEdit, clauseType, clauseContent } = req.body;
         
@@ -1059,8 +1094,9 @@ Contract text: "${updatedText}"`
     }
 });
 
-// Route: Get Active Contracts - Public endpoint
+// Route: Get Active Contracts
 app.get("/active-contracts", async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const now = new Date();
         const activeContractsSnapshot = await db.collection("contracts").get();
@@ -1101,6 +1137,7 @@ app.get("/active-contracts", async (req, res) => {
 
 // Route: Get Expired Contracts
 app.get("/expired-contracts", authenticateUser, authorizeUser(["read"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const now = new Date();
         const contractsSnapshot = await db.collection("contracts").get();
@@ -1139,6 +1176,7 @@ app.get("/expired-contracts", authenticateUser, authorizeUser(["read"]), async (
 
 // Route: Get Violations
 app.get("/violations", authenticateUser, authorizeUser(["read"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { contractId, limit = 50, type } = req.query;
         
@@ -1180,8 +1218,9 @@ app.get("/violations", authenticateUser, authorizeUser(["read"]), async (req, re
     }
 });
 
-// Route: Get Compliance Overview (Dashboard Stats) - Public endpoint
+// Route: Get Compliance Overview (Dashboard Stats)
 app.get("/compliance-overview", async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         // Get total contracts count
         const contractsSnapshot = await db.collection("contracts").get();
@@ -1251,6 +1290,7 @@ app.get("/compliance-overview", async (req, res) => {
 
 // Route: Export Compliance Report
 app.get("/export-compliance-report", authenticateUser, authorizeUser(["read"]), async (req, res) => {
+    const db = req.app.locals.db; // Access db via app.locals
     try {
         const { format = "json", startDate, endDate } = req.query;
         
@@ -1364,6 +1404,7 @@ app.get("/search-contracts",
         query("limit").optional().isInt({ min: 1, max: 100 }).toInt()
     ]),
     async (req, res) => {
+        const db = req.app.locals.db; // Access db via app.locals
         try {
             const { 
                 query: searchQuery, 
@@ -1497,6 +1538,7 @@ app.get("/audit-logs",
         query("limit").optional().isInt({ min: 1, max: 100 }).toInt()
     ]),
     async (req, res) => {
+        const db = req.app.locals.db; // Access db via app.locals
         try {
             const { 
                 userId, 

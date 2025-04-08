@@ -15,8 +15,8 @@ services:
         value: legallens-session-secret-2024-xyz789
       - key: GEMINI_API_KEY
         sync: false
-      - key: GOOGLE_APPLICATION_CREDENTIALS
-        value: ./config/firebase-admin-key.json
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false
       - key: EMAIL_SERVICE
         value: gmail
       - key: EMAIL_USER
